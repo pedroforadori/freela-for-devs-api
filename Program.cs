@@ -5,6 +5,7 @@ var app = builder.Build();
 app.MapGet("/", () => "API ON");
 
 app.MapUserEndpoint();
+app.MapAuthEndpoint();
 
 app.Run();
 

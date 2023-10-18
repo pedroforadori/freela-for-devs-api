@@ -4,19 +4,29 @@ public static class UserEndPoint{
     public static void MapUserEndpoint (this WebApplication app){
         
     app.MapGet("/user", async (AppDbContext context) =>
-        await context.Users.ToListAsync());
+        await context.Users.ToListAsync()
+    );
 
     app.MapGet("/user/{id}", async (Guid id, AppDbContext context) =>
         await context.Users.FindAsync(id) is User user
                 ? Results.Ok(user)
-                : Results.NotFound());
+                : Results.NotFound()
+    );
 
     app.MapPost("/user", async (User user, AppDbContext context) =>
     {
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+        var userExists = (from x in context.Users where x.Email == user.Email select x).FirstOrDefault();
+        var error = new { errorMessage = "Email ja existe no banco de dados" };
+    
+        if(userExists != null){
+            return Results.NotFound(error);
+        } else {
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
 
-        return Results.Created($"/user/{user.Id}", user);
+            return Results.Created($"/user/{user.Id}", user);
+        }
+       
     });
 
     app.MapPut("/user/{id}", async (Guid id, User inputUser, AppDbContext context) =>
