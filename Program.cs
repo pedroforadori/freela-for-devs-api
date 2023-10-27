@@ -8,6 +8,7 @@ app.MapUserEndpoint();
 app.MapAuthEndpoint();
 app.MapProjectEndpoint();
 app.MapProposalEndpoint();
+app.MapProposalProjectEndpoint();
 
 app.Run();
 

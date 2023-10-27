@@ -31,8 +31,6 @@ public static class ProposalEndPoint
 
                 return Results.Created($"/proposal/{proposal.Id}", proposal);
             }
-
-
         });
 
         app.MapPut("/proposal/{id}", async (Guid id, Proposal inputProposal, AppDbContext context) =>
