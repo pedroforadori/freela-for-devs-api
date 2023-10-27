@@ -14,4 +14,5 @@ public class Project
     public ESpecialty? Specialty { get; set; }
     public DateTime? CreatAt { get; set; } = DateTime.Now;
     public Guid UserId { get; set; }
+    public ICollection<Proposal>? Proposals { get; } = new List<Proposal>();
 }
