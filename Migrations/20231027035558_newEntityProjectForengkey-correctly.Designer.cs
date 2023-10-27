@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace freela_for_devs.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231027035558_newEntityProjectForengkey-correctly")]
+    partial class newEntityProjectForengkeycorrectly
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -25,11 +28,14 @@ namespace freela_for_devs.Migrations
                     b.Property<double>("Budget")
                         .HasColumnType("REAL");
 
-                    b.Property<DateTime?>("CreatAt")
+                    b.Property<DateTime>("CreatAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DescriptionProject")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("ProjectsId")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("Specialty")
@@ -43,6 +49,8 @@ namespace freela_for_devs.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectsId");
 
                     b.HasIndex("UserId");
 
@@ -76,11 +84,17 @@ namespace freela_for_devs.Migrations
 
             modelBuilder.Entity("Project", b =>
                 {
+                    b.HasOne("Project", "Projects")
+                        .WithMany()
+                        .HasForeignKey("ProjectsId");
+
                     b.HasOne("User", null)
                         .WithMany("Projects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("User", b =>

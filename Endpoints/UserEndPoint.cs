@@ -38,6 +38,7 @@ public static class UserEndPoint{
         user.Fullname = inputUser.Fullname;
         user.Email = inputUser.Email;
         user.Password = inputUser.Password;
+        user.Type = inputUser.Type;
 
         await context.SaveChangesAsync();
 

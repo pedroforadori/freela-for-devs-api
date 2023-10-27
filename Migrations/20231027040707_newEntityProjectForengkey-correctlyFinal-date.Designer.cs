@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace freela_for_devs.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231027040707_newEntityProjectForengkey-correctlyFinal-date")]
+    partial class newEntityProjectForengkeycorrectlyFinaldate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -32,6 +35,9 @@ namespace freela_for_devs.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<Guid>("ProjectsId")
+                        .HasColumnType("TEXT");
+
                     b.Property<int?>("Specialty")
                         .HasColumnType("INTEGER");
 
@@ -43,6 +49,8 @@ namespace freela_for_devs.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectsId");
 
                     b.HasIndex("UserId");
 
@@ -76,11 +84,19 @@ namespace freela_for_devs.Migrations
 
             modelBuilder.Entity("Project", b =>
                 {
+                    b.HasOne("Project", "Projects")
+                        .WithMany()
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("User", null)
                         .WithMany("Projects")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("User", b =>
