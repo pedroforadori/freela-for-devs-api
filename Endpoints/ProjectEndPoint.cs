@@ -59,9 +59,6 @@ public static class ProjectEndPoint
 
             return project;
 
-            //Results.Ok(new { errorMessage = "Email ja existe no banco de dados" });
-        }
-
-        );
+        });
     }
 }
