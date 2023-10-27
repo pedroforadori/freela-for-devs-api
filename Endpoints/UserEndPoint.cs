@@ -18,9 +18,12 @@ public static class UserEndPoint{
         var userExists = (from x in context.Users where x.Email == user.Email select x).FirstOrDefault();
         var error = new { errorMessage = "Email ja existe no banco de dados" };
     
-        if(userExists != null){
+        if(userExists != null)
+        {
             return Results.NotFound(error);
-        } else {
+        } 
+        else 
+        {
             context.Users.Add(user);
             await context.SaveChangesAsync();
 
