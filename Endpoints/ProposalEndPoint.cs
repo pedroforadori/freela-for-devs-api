@@ -17,10 +17,21 @@ public static class ProposalEndPoint
 
         app.MapPost("/proposal", async (Proposal proposal, AppDbContext context) =>
         {
-            context.Proposals.Add(proposal);
-            await context.SaveChangesAsync();
+            var proposalExists = (from x in context.Proposals where x.UserId == proposal.UserId select x).FirstOrDefault();
+            var error = new { errorMessage = "Proposta já foi enviada" };
 
-            return Results.Created($"/proposal/{proposal.Id}", proposal);
+            if (proposalExists != null)
+            {
+                return Results.NotFound(error);
+            }
+            else
+            {
+                context.Proposals.Add(proposal);
+                await context.SaveChangesAsync();
+
+                return Results.Created($"/proposal/{proposal.Id}", proposal);
+            }
+
 
         });
 
