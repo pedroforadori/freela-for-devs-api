@@ -49,5 +49,19 @@ public static class ProjectEndPoint
 
             return Results.NotFound();
         });
+
+        app.MapGet("/project/{id}/proposal", (Guid id, AppDbContext context) =>
+        {
+            var project = from Project in context.Set<Project>()
+                          join Proposal in context.Set<Proposal>()
+                          on Project.Id equals Proposal.ProjectId
+                          select new { Proposal };
+
+            return project;
+
+            //Results.Ok(new { errorMessage = "Email ja existe no banco de dados" });
+        }
+
+        );
     }
 }
