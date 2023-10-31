@@ -20,7 +20,7 @@ public static class UserEndPoint{
     
         if(userExists != null)
         {
-            return Results.NotFound(error);
+            return Results.Ok(error);
         } 
         else 
         {
