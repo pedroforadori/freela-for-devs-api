@@ -42,6 +42,7 @@ public static class UserEndPoint{
         user.Email = inputUser.Email;
         user.Password = inputUser.Password;
         user.Type = inputUser.Type;
+        user.Theme = inputUser.Theme;
 
         await context.SaveChangesAsync();
 

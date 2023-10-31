@@ -14,5 +14,6 @@ public class User
     public required string Password { get; set; }
     public EType? Type { get; set; }
     public DateTime? CreatAt { get; set; } = DateTime.Now;
+    public string? Theme { get; set; }
     public ICollection<Project>? Projects { get; } = new List<Project>();
 }
