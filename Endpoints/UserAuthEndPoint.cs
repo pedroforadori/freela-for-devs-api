@@ -12,7 +12,7 @@ public static class UseAuthEndPoint
 
             var returnUser = new
             {
-                errorMessage = "Usuário não encontrado",
+                errorMessage = false,
                 loginMessage = "Logado"
             };
 
@@ -22,7 +22,7 @@ public static class UseAuthEndPoint
             }
             else
             {
-                return Results.NotFound(returnUser.errorMessage);
+                return Results.Ok(returnUser.errorMessage);
             }
         });
 
