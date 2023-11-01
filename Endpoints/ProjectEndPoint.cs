@@ -15,6 +15,15 @@ public static class ProjectEndPoint
                     : Results.NotFound()
         );
 
+        app.MapGet("/project/user/{id}", async (Guid id, AppDbContext context) =>
+        {
+            var project = context.Projects
+                            .Where(p => p.UserId == id)
+                            .ToList();
+
+            return project;
+        });
+
         app.MapPost("/project", async (Project project, AppDbContext context) =>
         {
             context.Projects.Add(project);
